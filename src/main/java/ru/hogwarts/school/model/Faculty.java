@@ -2,17 +2,24 @@ package ru.hogwarts.school.model;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
+@Entity
 public class Faculty {
+    @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private String color;
-    private  static Long counter = 0L;
+    //private  static Long counter = 0L;
 
-    public Faculty(String name, String color) {
+    public Faculty(Long id, String name, String color) {
         this.name = name;
         this.color = color;
-        this.id = counter++;
+        //this.id = counter++;
+        this.id = id;
     }
 
     public Long getId() {
