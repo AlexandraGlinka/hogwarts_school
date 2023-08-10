@@ -22,6 +22,10 @@ public class Faculty {
         this.id = id;
     }
 
+    public Faculty() {
+
+    }
+
     public Long getId() {
         return id;
     }
