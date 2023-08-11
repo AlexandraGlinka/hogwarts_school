@@ -1,10 +1,14 @@
 package ru.hogwarts.school.model;
 
+import io.swagger.v3.oas.integration.ClasspathOpenApiConfigurationLoader;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 @Entity
 public class Faculty {
@@ -15,6 +19,8 @@ public class Faculty {
     private String color;
     //private  static Long counter = 0L;
 
+    @OneToMany(mappedBy = "faculty") // поле, которое добавили в Student
+    private Collection<Student> students;
     public Faculty(Long id, String name, String color) {
         this.name = name;
         this.color = color;
