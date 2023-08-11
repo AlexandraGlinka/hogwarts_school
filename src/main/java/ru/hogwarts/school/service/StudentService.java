@@ -16,5 +16,9 @@ public interface StudentService {
 
     void deleteStudent(Long id);
 
-    Collection<Student> getStudentsByAge(int age);
+    Collection<Student> findStudentsByAge(int age);
+
+    Collection<Student> findStudentsByAgeBetween(Integer age1, Integer age2);
+
+    Collection<Student> findStudentsByName(String name);
 }

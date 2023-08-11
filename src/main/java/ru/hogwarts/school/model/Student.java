@@ -10,10 +10,10 @@ public class Student {
     @GeneratedValue
     private Long id;
     private String name;
-    private int age;
+    private Integer age;
     //private static Long counter = 0L;
 
-    public Student(Long id, String name, int age) {
+    public Student(Long id, String name, Integer age) {
         this.name = name;
         this.age = age;
         //this.id = counter++;
@@ -53,7 +53,7 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return age == student.age && Objects.equals(id, student.id) && Objects.equals(name, student.name);
+        return Objects.equals(age, student.age) && Objects.equals(id, student.id) && Objects.equals(name, student.name);
     }
 
     @Override
