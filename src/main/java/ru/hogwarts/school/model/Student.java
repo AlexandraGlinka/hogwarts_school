@@ -1,10 +1,13 @@
 package ru.hogwarts.school.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.util.Objects;
 @Entity
+//@Table(name = "student")
+//@SQLDelete(sql = "UPDATE public.student SET deleted = TRUE where id = ?")
 public class Student {
     @Id
     @GeneratedValue
@@ -12,19 +15,21 @@ public class Student {
     private String name;
     private Integer age;
 
-    //private static Long counter = 0L;
+   // private boolean deleted = false; // false = not deleted
 
+
+    //private static Long counter = 0L;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
+
     public Student(String name, Integer age) {
         this.name = name;
         this.age = age;
         //this.id = counter++;
         //this.id = id;
     }
-
     public Student() {
 
     }

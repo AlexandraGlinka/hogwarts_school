@@ -2,6 +2,7 @@ package ru.hogwarts.school.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.integration.ClasspathOpenApiConfigurationLoader;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+//@SQLDelete(sql = "UPDATE faculty SET deleted = TRUE where id = ?")
 public class Faculty {
     @Id
     @GeneratedValue
