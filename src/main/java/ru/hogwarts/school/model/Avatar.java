@@ -9,15 +9,16 @@ public class Avatar {
     @Id
     @GeneratedValue
     private Long id;
-    private String filePath;
+    private String filePath; // путь файла на диске
     private long fileSize;
     private String mediaType;
+    @Lob // чтобы сохранить массив byte
     private byte[] data;
     @OneToOne
     private Student student;
 
     public Avatar(String filePath, long fileSize, String mediaType, byte[] data) {
-        this.filePath = filePath;
+        this.filePath = filePath; // путь к файлу
         this.fileSize = fileSize;
         this.mediaType = mediaType;
         this.data = data;
