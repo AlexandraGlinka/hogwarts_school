@@ -17,11 +17,12 @@ public class Avatar {
     @OneToOne
     private Student student;
 
-    public Avatar(String filePath, long fileSize, String mediaType, byte[] data) {
+    public Avatar(Long id, String filePath, String mediaType, long fileSize, Student student) {
+        this.id = id;
         this.filePath = filePath; // путь к файлу
-        this.fileSize = fileSize;
         this.mediaType = mediaType;
-        this.data = data;
+        this.fileSize = fileSize;
+        this.student = student;
     }
 
     public Avatar() {
