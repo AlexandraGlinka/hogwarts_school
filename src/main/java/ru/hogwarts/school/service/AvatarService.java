@@ -6,9 +6,9 @@ import ru.hogwarts.school.model.Avatar;
 import java.io.IOException;
 
 public interface AvatarService {
-    void uploadAvatar(Long id, MultipartFile avatar);
+    void uploadAvatar(Long id, MultipartFile avatar) throws IOException;
 
-    Avatar findAvatar(Long id);
+    Avatar findAvatar(Long studentId);
 
 
 }
