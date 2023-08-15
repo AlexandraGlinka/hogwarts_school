@@ -1,29 +1,47 @@
 package ru.hogwarts.school.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.integration.ClasspathOpenApiConfigurationLoader;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Objects;
+import java.util.Set;
+
 @Entity
+//@SQLDelete(sql = "UPDATE faculty SET deleted = TRUE where id = ?")
 public class Faculty {
     @Id
     @GeneratedValue
     private Long id;
     private String name;
     private String color;
+
     //private  static Long counter = 0L;
 
-    public Faculty(Long id, String name, String color) {
+    @JsonIgnore
+    @OneToMany(mappedBy = "faculty") // поле, которое добавили в Student
+    private Set<Student> students;
+    public Faculty(String name, String color) {
         this.name = name;
         this.color = color;
         //this.id = counter++;
-        this.id = id;
+        //this.id = id;
     }
-
     public Faculty() {
 
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
     public Long getId() {

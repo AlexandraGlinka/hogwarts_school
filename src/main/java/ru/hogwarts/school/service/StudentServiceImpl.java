@@ -31,7 +31,7 @@ public class StudentServiceImpl implements StudentService {
 //            throw new StudentNotFoundException("Student not found");
 //        }
 //        return students.get(id);
-        return studentRepository.findById(id).get();
+        return studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student not found"));
     }
 
     @Override
@@ -63,10 +63,21 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Collection<Student> getStudentsByAge(int age) {
+    public Collection<Student> findStudentsByAge(int age) {
 //        return getAllStudents().stream()
 //                .filter(student -> student.getAge() == age)
 //                .collect(Collectors.toList());
         return studentRepository.findByAge(age);
     }
+
+    @Override
+    public Collection<Student> findStudentsByAgeBetween(Integer age1, Integer age2) {
+        return studentRepository.findByAgeBetween(age1, age2);
+    }
+
+    @Override
+    public Collection<Student> findStudentsByName(String name) {
+        return studentRepository.findByNameIgnoreCase(name);
+    }
+
 }

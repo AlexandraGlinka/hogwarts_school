@@ -1,27 +1,45 @@
 package ru.hogwarts.school.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.SQLDelete;
+
+import javax.persistence.*;
 import java.util.Objects;
 @Entity
+//@Table(name = "student")
+//@SQLDelete(sql = "UPDATE public.student SET deleted = TRUE where id = ?")
 public class Student {
     @Id
     @GeneratedValue
     private Long id;
     private String name;
-    private int age;
-    //private static Long counter = 0L;
+    private Integer age;
 
-    public Student(Long id, String name, int age) {
+   // private boolean deleted = false; // false = not deleted
+
+
+    //private static Long counter = 0L;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
+
+    public Student(String name, Integer age) {
         this.name = name;
         this.age = age;
         //this.id = counter++;
-        this.id = id;
+        //this.id = id;
     }
-
     public Student() {
 
+    }
+
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     public Long getId() {
@@ -53,7 +71,7 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return age == student.age && Objects.equals(id, student.id) && Objects.equals(name, student.name);
+        return Objects.equals(age, student.age) && Objects.equals(id, student.id) && Objects.equals(name, student.name);
     }
 
     @Override
