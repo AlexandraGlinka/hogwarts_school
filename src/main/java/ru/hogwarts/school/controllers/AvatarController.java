@@ -48,11 +48,14 @@ public class AvatarController {
     public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException{
         Avatar avatar = avatarService.findAvatar(id);
         Path path = Path.of(avatar.getFilePath());
-        try(InputStream is = Files.newInputStream(path);
-            OutputStream os = response.getOutputStream();) {
+        try(
+                InputStream is = Files.newInputStream(path);
+                OutputStream os = response.getOutputStream();
+            ) {
             response.setStatus(200);
             response.setContentType(avatar.getMediaType());
             response.setContentLength((int) avatar.getFileSize());
+
             is.transferTo(os);
         }
     }
