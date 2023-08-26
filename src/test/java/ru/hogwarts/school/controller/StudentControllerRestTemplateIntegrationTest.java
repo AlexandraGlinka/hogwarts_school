@@ -33,13 +33,6 @@ public class StudentControllerRestTemplateIntegrationTest {
     }
 
     @Test
-    public void testGetStudent() throws Exception {
-        Assertions
-                .assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/student", String.class))
-                .isNotNull();
-    }
-
-    @Test
     public void testPostStudent() throws Exception {
         Student testStudent = new Student("test student", 30);
 
@@ -48,6 +41,25 @@ public class StudentControllerRestTemplateIntegrationTest {
 
         Assertions.assertThat(newStudentResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(newStudentResponse.getBody()).isNotNull();
+    }
+
+    @Test
+    public void testGetStudent() throws Exception {
+        Student testStudent = new Student("test student", 30);
+
+        ResponseEntity<Student> newStudentResponse =
+                testRestTemplate.postForEntity("http://localhost:" + port + "/student", testStudent, Student.class);
+
+        Assertions.assertThat(newStudentResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        Student newStudent = newStudentResponse.getBody();
+
+        ResponseEntity<Student[]> studentEntity =
+                testRestTemplate.getForEntity("http://localhost:" + port + "/student", Student[].class);
+
+        Assertions.assertThat(studentEntity.getBody()).isNotNull();
+        Assertions.assertThat(studentEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(studentEntity.getBody()).contains(newStudent);
     }
 
     @Test
@@ -173,7 +185,7 @@ public class StudentControllerRestTemplateIntegrationTest {
     }
 
     @Test
-    public void testDeleteStudentById() {
+    public void testDeleteStudentById() throws Exception {
         Student testStudent = new Student("test student", 30);
         ResponseEntity<Student> newStudentResponse =
                 testRestTemplate.postForEntity("http://localhost:" + port + "/student", testStudent, Student.class);
