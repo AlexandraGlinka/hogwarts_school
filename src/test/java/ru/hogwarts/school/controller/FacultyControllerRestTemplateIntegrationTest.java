@@ -150,6 +150,31 @@ public class FacultyControllerRestTemplateIntegrationTest{
     }
 
     @Test
+    public void testPutFacultyById() throws Exception {
+        Faculty testFaculty = new Faculty("test name", "test color");
+
+        ResponseEntity<Faculty> newFacultyResponse =
+                testRestTemplate.postForEntity("http://localhost:" + port + "/faculty", testFaculty, Faculty.class);
+
+        Assertions.assertThat(newFacultyResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        Faculty newFaculty = newFacultyResponse.getBody();
+        newFaculty.setColor("new color");
+        newFaculty.setName("new name");
+
+        HttpEntity<Faculty> newFacultyEntity = new HttpEntity<>(newFaculty, newFacultyResponse.getHeaders());
+
+        ResponseEntity<Faculty> facultyEntity =
+                testRestTemplate.exchange("http://localhost:" + port + "/faculty/" + newFaculty.getId(),
+                        HttpMethod.PUT, newFacultyEntity, Faculty.class);
+
+        Assertions.assertThat(facultyEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(facultyEntity.getBody()).isNotNull();
+        Assertions.assertThat(facultyEntity.getBody().getId()).isEqualTo(newFaculty.getId());
+        Assertions.assertThat(facultyEntity.getBody().getName()).isEqualTo(newFaculty.getName());
+        Assertions.assertThat(facultyEntity.getBody().getColor()).isEqualTo(newFaculty.getColor());
+    }
+    @Test
     public void testDeleteFacultyById() throws Exception {
         Faculty testFaculty = new Faculty("test name", "test color");
 

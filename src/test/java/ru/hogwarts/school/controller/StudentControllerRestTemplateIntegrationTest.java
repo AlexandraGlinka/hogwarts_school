@@ -171,7 +171,24 @@ public class StudentControllerRestTemplateIntegrationTest {
         Assertions.assertThat(newStudentResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         Student newStudent = newStudentResponse.getBody();
-        Student updateStudent = new Student("test student 2", 31);
+        newStudent.setAge(31);
+        newStudent.setName("test student 2");
+        //Student updateStudent = new Student("test student 2", 31);
+
+        HttpEntity<Student> newStudentEntity = new HttpEntity<>(newStudent, newStudentResponse.getHeaders());
+
+        ResponseEntity<Student> studentEntity =
+                testRestTemplate.exchange("http://localhost:" + port + "/student/" + newStudent.getId(),
+                        HttpMethod.PUT, newStudentEntity, Student.class);
+
+        Assertions.assertThat(studentEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(studentEntity.getBody()).isNotNull();
+        Assertions.assertThat(studentEntity.getBody().getId()).isEqualTo(newStudent.getId());
+        Assertions.assertThat(studentEntity.getBody().getName()).isEqualTo(newStudent.getName());
+        Assertions.assertThat(studentEntity.getBody().getAge()).isEqualTo(newStudent.getAge());
+
+//        ResponseEntity<Student> studentEntity =
+//                testRestTemplate.put("http://localhost:" + port + "/student/" + newStudent.getId(), newStudent, Student.class);
 
 //        ResponseEntity<Student> studentEntity =
 //                testRestTemplate.exchange("http://localhost:" + port + "/student/" + newStudent.getId(),
