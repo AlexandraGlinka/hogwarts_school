@@ -30,6 +30,13 @@ public class Student {
         //this.id = counter++;
         //this.id = id;
     }
+
+    public Student(Long id, String name, Integer age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
+
     public Student() {
 
     }
