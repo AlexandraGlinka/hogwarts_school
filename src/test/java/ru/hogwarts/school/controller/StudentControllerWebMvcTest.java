@@ -15,6 +15,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 import ru.hogwarts.school.service.StudentServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,5 +98,41 @@ public class StudentControllerWebMvcTest {
 
         verify(studentRepository, times(1)).findById(1L);
         verify(studentService, times(1)).getStudentById(1L);
+    }
+
+    @Test
+    public void testGetStudentsByAge() throws Exception {
+        ArrayList<Student> studentList = new ArrayList<>();
+        studentList.add(new Student(1L, "name", 20));
+        studentList.add(new Student(2L, "name2", 20));
+
+        when(studentRepository.findByAge(20)).thenReturn(studentList);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student?age1=20"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetStudentsByAgeBetween() throws Exception {
+        ArrayList<Student> studentList = new ArrayList<>();
+        studentList.add(new Student(1L, "name", 20));
+        studentList.add(new Student(2L, "name2", 23));
+
+        when(studentRepository.findByAgeBetween(20, 25)).thenReturn(studentList);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student?age1=20&age2=25"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetStudentsByName() throws Exception {
+        ArrayList<Student> studentList = new ArrayList<>();
+        studentList.add(new Student(1L, "test", 20));
+        studentList.add(new Student(2L, "test", 30));
+
+        when(studentRepository.findByNameIgnoreCase("Name")).thenReturn(studentList);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student?name=test"))
+                .andExpect(status().isOk());
     }
 }

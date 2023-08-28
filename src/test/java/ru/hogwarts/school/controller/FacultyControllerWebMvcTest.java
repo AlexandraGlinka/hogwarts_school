@@ -2,7 +2,6 @@ package ru.hogwarts.school.controller;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -105,26 +104,33 @@ public class FacultyControllerWebMvcTest {
         verify(facultyService, times(1)).getFacultyById(1L);
     }
 
-//    @Test
-//    public void testGetFacultiesByName() throws Exception {
-//        ArrayList<Faculty> facultyList = new ArrayList<>();
-//        facultyList.add(new Faculty(1L, "ttt", "white"));
-//        facultyList.add(new Faculty(2L, "aaa", "black"));
-//        facultyList.add(new Faculty(3L, "ttt", "green"));
-//
-//        when(facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(any(String.class))).thenReturn(Optional.of(facultyList));
-//    }
+    @Test
+    public void testGetFacultiesByName() throws Exception {
+        ArrayList<Faculty> facultyList = new ArrayList<>();
+        facultyList.add(new Faculty(1L, "ttt", "white"));
+        facultyList.add(new Faculty(2L, "ttt", "black"));
 
-//    @Test
-//    public void testDeleteFacultyById() throws Exception {
-//        ArrayList<Faculty> facultyList = new ArrayList<>();
-//        facultyList.add(new Faculty(1L, "ttt", "white"));
-//        facultyList.add(new Faculty(2L, "aaa", "black"));
-//        facultyList.add(new Faculty(3L, "ttt", "green"));
-//
-//        when(facultyRepository.deleteById(any(Long.class))).thenReturn();
-//
-//        mockMvc.perform(MockMvcRequestBuilders.delete("/faculty/1"))
-//                .
-//    }
+        when(facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase("ttt", null)).thenReturn(facultyList);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/faculty?name=ttt"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetFacultiesByColor() throws Exception {
+        ArrayList<Faculty> facultyList = new ArrayList<>();
+        facultyList.add(new Faculty(1L, "ttt", "white"));
+        facultyList.add(new Faculty(2L, "vvv", "white"));
+
+        when(facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(null, "white")).thenReturn(facultyList);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/faculty?color=white"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testDeleteFacultyById() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/faculty/1"))
+                .andExpect(status().isOk());
+    }
 }

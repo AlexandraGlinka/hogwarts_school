@@ -36,8 +36,8 @@ public class FacultyControllerRestTemplateIntegrationTest{
     public void testPostFaculty() throws Exception {
         Faculty testFaculty = new Faculty("test name", "test color");
 
-        ResponseEntity<Faculty[]> newFacultyResponse =
-                testRestTemplate.postForEntity("http://localhost:" + port + "/faculty", testFaculty, Faculty[].class);
+        ResponseEntity<Faculty> newFacultyResponse =
+                testRestTemplate.postForEntity("http://localhost:" + port + "/faculty", testFaculty, Faculty.class);
 
         Assertions.assertThat(newFacultyResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(newFacultyResponse.getBody()).isNotNull();
