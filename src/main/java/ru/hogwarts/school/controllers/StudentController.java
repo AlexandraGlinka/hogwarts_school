@@ -9,6 +9,7 @@ import ru.hogwarts.school.service.AvatarService;
 import ru.hogwarts.school.service.StudentService;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -60,5 +61,18 @@ public class StudentController {
 //        return studentService.getStudentsByAge(age);
 //    }
 
+    @GetMapping("/count")
+    public Integer getStudentCount() {
+        return studentService.getCountOfStudents();
+    }
 
+    @GetMapping("/average-age")
+    public Integer getAverageAgeOfStudents() {
+        return studentService.getAverageAgeOfStudents();
+    }
+
+    @GetMapping("/last-5-students")
+    public List<Student> getLastFiveStudents() {
+        return studentService.getLastFiveStudents();
+    }
 }
