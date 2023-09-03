@@ -1,5 +1,6 @@
 package ru.hogwarts.school.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.util.ByteArrayBuilder;
 import org.hibernate.annotations.Type;
 
@@ -17,6 +18,7 @@ public class Avatar {
     private String mediaType;
     @Lob // чтобы сохранить массив byte
     @Type(type = "org.hibernate.type.BinaryType")
+    @JsonIgnore
     private byte[] data;
     @OneToOne
     private Student student;
